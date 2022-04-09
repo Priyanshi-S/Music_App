@@ -1,23 +1,23 @@
 const songs = [
     {
-      title: "death bed",
-      artist: "Powfu",
-      artwork: require("../images/pic5.jpg"),
-      url: "https://samplesongs.netlify.app/Death%20Bed.mp3",
+      title: "Closer",
+      artist: "The Chainsmokers",
+      artwork: require("../images/pic7.jpg"),
+      url: require('../songs/Closer.mp3'),
       id: "1",
     },
     {
-      title: "Bad Liar",
-      artist: "Imagine Dragons",
+      title: "Dynamite",
+      artist: "BTS",
       artwork: require("../images/pic6.jpg"),
-      url: "https://samplesongs.netlify.app/Bad%20Liar.mp3",
+      url: require('../songs/Dynamite.mp3'),
       id: "2"
     },
     {
-      title: "Faded",
-      artist: "Alan Walker",
+      title: "Don't Start Now",
+      artist: "Dua Lipa",
       artwork: require("../images/pic7.jpg"),
-      url: "https://samplesongs.netlify.app/Faded.mp3",
+      url: require('../songs/Dont_Start_Now.mp3'),
       id: "3"
     },
     {

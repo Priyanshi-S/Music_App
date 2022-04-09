@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import { Text, Image, View ,ImageBackground} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import styles from './styles'
+import {TextInput,ScrollView,TouchableOpacity} from 'react-native-gesture-handler'
+const Profile = ({navigation}) => { 
 
-class Profile extends Component {
-
-   render() {
      return(
        <SafeAreaView style={{
         backgroundColor:"#C996CC",
@@ -36,9 +35,54 @@ class Profile extends Component {
            </View>
          </View>
          </View>
+
+         <View>
+            <TouchableOpacity 
+                        onPress={()=>navigation.navigate("Download")}
+                        style={{
+                            height:120,
+                            elevation:2,
+                            backgroundColor:"#FFF",
+                            marginLeft:20,
+                            marginTop:20,
+                            borderRadius:15,
+                            marginBottom:10,
+                            width:370
+                        }}>
+                        <View style={{flexDirection:"row"}}>
+                        <Image
+                            source={require('../images/downloads.jpg')}
+                            style={{
+                                height:120,
+                                width:120
+                            }}
+                        />
+                        <View style={{
+                            flexDirection:"column",
+                            paddingLeft:60,
+                            paddingTop:40
+                        }}>
+                            <Text style={{
+                                fontWeight:"bold",
+                            }}>YOUR DOWNLOADS</Text>
+                            
+                            <Text style={{
+                            fontWeight:"bold",
+                            color:"#916BBF",
+                            paddingLeft:40
+                        }}>
+                            5 Songs
+                        </Text>
+                        </View>
+                        </View>
+                        
+                    </TouchableOpacity>
+            
+
+
+         </View>
        </SafeAreaView>
      )
-   }
-}
+                    }
 
 export default Profile;

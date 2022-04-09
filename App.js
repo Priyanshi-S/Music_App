@@ -14,8 +14,12 @@ import Detail1 from './src/screens/Detail1';
 import Detail2 from './src/screens/Detail2';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Favourite from './src/screens/Favourite'
+import Playlist from './src/screens/Playlist';
+import Download from './src/screens/Download';
+import Karaoke from './src/screens/Karaoke';
 import {Image} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon1 from 'react-native-vector-icons/MaterialIcons';
 
 const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
@@ -44,6 +48,18 @@ const BottomTabNavigator = () => {
             />
 
             <Tab.Screen
+                name="Playlist"
+                component={Playlist}
+                options={{
+                    tabBarLabel:"",
+                    tabBarIcon:({color, size}) => (
+                      <Icon1 name="playlist-add" type="MaterialIcons" color="black"  size={24}
+                      style={{ paddingTop:15 }}/>
+                    )
+                }}
+            />
+
+            <Tab.Screen
                 name="Favourite"
                 component={Favourite}
                 options={{
@@ -54,6 +70,20 @@ const BottomTabNavigator = () => {
                     )
                 }}
             />
+
+            <Tab.Screen
+                name="Karaoke"
+                component={Karaoke}
+                options={{
+                    tabBarLabel:"",
+                    tabBarIcon:({color, size}) => (
+                      <Icon name="microphone" type="fontAwesome" color="black"  size={20}
+                      style={{ paddingTop:15 }}/>
+                    )
+                }}
+            />
+
+
             <Tab.Screen
                 name="Profile"
                 component={Profile}
@@ -103,6 +133,10 @@ const App = () => {
         <Stack.Screen
           name = "Detail2"
           component = {Detail2}
+        />
+        <Stack.Screen
+          name = "Download"
+          component = {Download}
         />
         <Stack.Screen 
           name="Artists" 

@@ -1,7 +1,6 @@
 import React, {useEffect,useRef,useState} from 'react'
-import {SafeAreaView,StyleSheet,View, Text,Image, FlatList, Animated, Dimensions } from 'react-native'
+import {SafeAreaView,StyleSheet,View, Text,Image, FlatList, Animated, Dimensions, TouchableOpacity } from 'react-native'
 import SwiperComponent from '../components/SwiperComponent'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import Player from './Player';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon1 from 'react-native-vector-icons/MaterialIcons';
@@ -159,7 +158,7 @@ const Detail = ({}) => {
                             justifyContent:"center",
                             marginTop:40
                         }}>
-                            <Icon name="microphone" type="FontAwesome" color="black" size={25}/>
+                            <Icon name="download" type="AntDesign" color="black"  size={25}/>
                         </View>
                         <View style={{
                             backgroundColor:"#FFF",

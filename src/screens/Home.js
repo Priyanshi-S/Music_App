@@ -132,7 +132,7 @@ const Home = ({navigation}) => {
                         }}
                     />
                     <TouchableOpacity 
-                        onPress={()=>navigation.navigate("Detail")}
+                        onPress={()=>navigation.navigate("Detail2")}
                         style={{
                             height:250,
                             elevation:2,
@@ -176,7 +176,7 @@ const Home = ({navigation}) => {
                     </TouchableOpacity>
 
                     <TouchableOpacity 
-                        onPress={()=>navigation.navigate("Detail1")}
+                        onPress={()=>navigation.navigate("Detail2")}
                         style={{
                             height:250,
                             elevation:2,
