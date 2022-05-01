@@ -1,97 +1,101 @@
-import React from 'react'
-import {View, Text, Image, ImageBackground} from 'react-native'
-import {TextInput,ScrollView,TouchableOpacity} from 'react-native-gesture-handler'
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { Audio } from 'expo-av';
+import * as Sharing from 'expo-sharing';
 
-const Karaoke = () => {
-    return(
-        <ScrollView style={{
-            backgroundColor:"#FFF",
-            flex:1
-        }}>
-            <TouchableOpacity 
-                        onPress={()=>navigation.navigate("Detail")}
-                        style={{
-                            height:100,
-                            elevation:2,
-                            backgroundColor:"#FFF",
-                            marginLeft:20,
-                            marginTop:20,
-                            borderRadius:15,
-                            marginBottom:10,
-                            width:370
-                        }}>
-                        <View style={{flexDirection:"row"}}>
-                        <Image
-                            source={require('../images/pic2.jpg')}
-                            style={{
-                                height:100,
-                                width:100
-                            }}
-                        />
-                        <View style={{
-                            flexDirection:"row",
-                            paddingLeft:60,
-                            paddingTop:20
-                        }}>
-                            <Text style={{
-                                fontWeight:"bold"
-                            }}>Stay</Text>
-                            
-                            <Text style={{
-                            fontWeight:"bold",
-                            color:"#916BBF",
-                            paddingLeft:10
-                        }}>
-                            By Justin Beiber
-                        </Text>
-                        </View>
-                        </View>
-                        
-                    </TouchableOpacity>
-            
-                    <TouchableOpacity 
-                        onPress={()=>navigation.navigate("Detail")}
-                        style={{
-                            height:100,
-                            elevation:2,
-                            backgroundColor:"#FFF",
-                            marginLeft:20,
-                            marginTop:20,
-                            borderRadius:15,
-                            marginBottom:10,
-                            width:370
-                        }}>
-                        <View style={{flexDirection:"row"}}>
-                        <Image
-                            source={require('../images/pic5.jpg')}
-                            style={{
-                                height:100,
-                                width:100
-                            }}
-                        />
-                        <View style={{
-                            flexDirection:"row",
-                            paddingLeft:60,
-                            paddingTop:20
-                        }}>
-                            <Text style={{
-                                fontWeight:"bold"
-                            }}>Death Bed</Text>
-                            
-                            <Text style={{
-                            fontWeight:"bold",
-                            color:"#916BBF",
-                            paddingLeft:10
-                        }}>
-                            By Powfu
-                        </Text>
-                        </View>
-                        </View>
-                        
-                    </TouchableOpacity>
+export default function Karaoke() {
+  const [recording, setRecording] = React.useState();
+  const [recordings, setRecordings] = React.useState([]);
+  const [message, setMessage] = React.useState("");
 
-        </ScrollView>
+  async function startRecording() {
+    try {
+      const permission = await Audio.requestPermissionsAsync();
+
+      if (permission.status === "granted") {
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: true,
+          playsInSilentModeIOS: true
+        });
         
-    )
+        const { recording } = await Audio.Recording.createAsync(
+          Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+        );
+
+        setRecording(recording);
+      } else {
+        setMessage("Please grant permission to app to access microphone");
+      }
+    } catch (err) {
+      console.error('Failed to start recording', err);
+    }
+  }
+
+  async function stopRecording() {
+    setRecording(undefined);
+    await recording.stopAndUnloadAsync();
+
+    let updatedRecordings = [...recordings];
+    const { sound, status } = await recording.createNewLoadedSoundAsync();
+    updatedRecordings.push({
+      sound: sound,
+      duration: getDurationFormatted(status.durationMillis),
+      file: recording.getURI()
+    });
+
+    setRecordings(updatedRecordings);
+  }
+
+  function getDurationFormatted(millis) {
+    const minutes = millis / 1000 / 60;
+    const minutesDisplay = Math.floor(minutes);
+    const seconds = Math.round((minutes - minutesDisplay) * 60);
+    const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
+    return `${minutesDisplay}:${secondsDisplay}`;
+  }
+
+  function getRecordingLines() {
+    return recordings.map((recordingLine, index) => {
+      return (
+        <View key={index} style={styles.row}>
+          <Text style={styles.fill}>Recording {index + 1} - {recordingLine.duration}</Text>
+          <Button style={styles.button} onPress={() => {recordingLine.sound.replayAsync();console.log(recordingLine);}} title="Play"></Button>
+          <Button style={styles.button} onPress={() => Sharing.shareAsync(recordingLine.file)} title="Share"></Button>
+        </View>
+      );
+    });
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text>{message}</Text>
+      <Button
+        title={recording ? 'Stop Recording' : 'Start Recording'}
+        onPress={recording ? stopRecording : startRecording} />
+      {getRecordingLines()}
+      <StatusBar style="auto" />
+    </View>
+  );
 }
-export default Karaoke;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fill: {
+    flex: 1,
+    margin: 16
+  },
+  button: {
+    margin: 16
+  }
+});
