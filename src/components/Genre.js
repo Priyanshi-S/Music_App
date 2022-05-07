@@ -3,6 +3,8 @@ import { Text, View, ImageBackground, TouchableOpacity, Pressable } from 'react-
 import { SafeAreaView } from 'react-native-safe-area-context'
 import styles from '../screens/styles'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
+import axios from 'axios'
+import { apiConfig } from './info'
 
 class Genre extends Component {
    state = {
@@ -64,33 +66,35 @@ class Genre extends Component {
 
     user_info = this.props.route.params.data;
 
-  //  register = () => {
+    register = () => {
 
-  //  const genre = this.state.genres.filter(function(item){
-  //     return item.selected == true;
-  //   }).map(function({id, genre}){
-  //       return {id, genre};
-  //   });
+    const genre = this.state.genres.filter(function(item){
+       return item.selected == true;
+     }).map(function({id, genre}){
+         return {id, genre};
+     });
 
-  //   const data = {
-  //     name: this.user_info.name,
-  //     phone: this.user_info.phone,
-  //     email: this.user_info.email,
-  //     password: this.user_info.password,
-  //     languages: this.language,
-  //     artists: this.artist,
-  //     genres: genre
-  //   }
+     const data = {
+       name: this.user_info.name,
+       phone: this.user_info.phone,
+       email: this.user_info.email,
+       password: this.user_info.password,
+       languages: this.language,
+       artists: this.artist,
+       genres: genre
+     }
 
-  //   axios
-  //     .post(apiConfig.baseUrl+'/register', data)
-  //     .then(res => {
-  //       res.data ? this.props.navigation.navigate('Main') : alert("Error!!! Please try again");
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  //  }
+     console.log(data);
+     axios
+       .post(apiConfig.baseUrl+'/register', data)
+       .then(res => {
+         console.log(res);
+         res.data ? this.props.navigation.navigate('Main') : alert("Error!!! Please try again");
+       })
+       .catch(err => {
+         console.log(err);
+       })
+    }
 
    selectGenre = (item) => {
      this.setState(prevState => ({
@@ -126,9 +130,9 @@ class Genre extends Component {
                 ))
               }
           </View>
-          <Pressable style = {styles.next} onPress = {() => this.props.navigation.navigate('Main')} >
+          <TouchableOpacity style = {styles.next} onPress = {this.register} >
             <Text style={styles.white}>Continue</Text>
-          </Pressable>
+          </TouchableOpacity>
         </SafeAreaView>
       )
    }

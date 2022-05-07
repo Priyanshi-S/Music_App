@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet,View, Text,Image } from 'react-native'
 import SwiperComponent from '../components/SwiperComponent'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity } from 'react-native'
 import Player from './Player';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon1 from 'react-native-vector-icons/MaterialIcons';

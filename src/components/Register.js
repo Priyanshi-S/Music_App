@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, Pressable, ImageBackground } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import styles from '../screens/styles'
 
@@ -57,10 +58,10 @@ class Register extends Component {
                 onChangeText = {this.handlePassword}/>
             </View>  
 
-            <Pressable style = {styles.next} onPress = {
+            <TouchableOpacity style = {styles.next} onPress = {
               () => this.props.navigation.navigate('Language', {data: this.state})} >
               <Text style={styles.white}>Submit</Text>
-            </Pressable>
+            </TouchableOpacity>
           </ImageBackground>
         </SafeAreaView>
       )

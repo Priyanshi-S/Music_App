@@ -8,7 +8,7 @@ import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons'
 import Slider from '@react-native-community/slider';
 import songs from "./data";
 import TrackPlayer, {Capability, Event, RepeatMode, State, usePlaybackState, UsePlaybackState, useProgress, useTrackPlayerEvents} from 'react-native-track-player';
-
+import {requestToPermissions, like} from '../navigations/download';
 const {width,height} =Dimensions.get('window'); 
 
 const setupPlayer= async()=>{
@@ -146,8 +146,7 @@ const Detail = ({}) => {
                 width:"100%",
                 height:"75%"
             }}>
-                <View style={{width:"10%",paddingLeft:30}}>
-                       
+                <View style={{width:"10%",paddingLeft:"2%"}}>
                         <View style={{
                             backgroundColor:"#FFF",
                             height:50,
@@ -158,7 +157,10 @@ const Detail = ({}) => {
                             justifyContent:"center",
                             marginTop:40
                         }}>
-                            <Icon name="download" type="AntDesign" color="black"  size={25}/>
+                          <TouchableOpacity onPress={()=> requestToPermissions(songIndex)}>
+                            <Icon name="download" type="FontAwesome" color="black" size={30}/>
+                          </TouchableOpacity>
+                          {/*  <Icon name="microphone" type="FontAwesome" color="black" size={25}/>*/}
                         </View>
                         <View style={{
                             backgroundColor:"#FFF",
@@ -170,7 +172,9 @@ const Detail = ({}) => {
                             justifyContent:"center",
                             marginTop:40
                         }}>
+                          <TouchableOpacity onPress={()=> like(songIndex)}>
                             <Icon name="heart" type="AntDesign" color="red"  size={25}/>
+                          </TouchableOpacity>
                         </View>
                         <View style={{
                             backgroundColor:"#FFF",
@@ -227,7 +231,7 @@ const Detail = ({}) => {
                         <View style={{
                             flexDirection:"row",
                             marginTop:-80,
-                            marginHorizontal:20,
+                            //marginHorizontal:20,
                             alignItems:"center"
                         }}>
                             
@@ -356,6 +360,7 @@ const styles = StyleSheet.create({
     progressLabelContainer:{
         width:350,
         paddingLeft:50,
+        paddingRight:"5%",
         justifyContent: 'space-between',
         flexDirection:'row'
     },

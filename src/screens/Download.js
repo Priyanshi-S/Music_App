@@ -1,6 +1,5 @@
 import React from 'react'
-import {View, Text, Image, ImageBackground} from 'react-native'
-import {TextInput,ScrollView,TouchableOpacity} from 'react-native-gesture-handler'
+import {View, Text, Image, ImageBackground,TextInput,ScrollView,TouchableOpacity} from 'react-native'
 
 const Download = () => {
     return(

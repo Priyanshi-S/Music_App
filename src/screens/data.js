@@ -1,23 +1,27 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
+AsyncStorage.setItem('email','');
+
 const songs = [
     {
-      title: "Closer",
-      artist: "The Chainsmokers",
-      artwork: require("../images/pic7.jpg"),
-      url: require('../songs/Closer.mp3'),
+      title: "death bed",
+      artist: "Powfu",
+      artwork: require("../images/pic5.jpg"),
+      url: "https://samplesongs.netlify.app/Death%20Bed.mp3",
       id: "1",
     },
     {
-      title: "Dynamite",
-      artist: "BTS",
+      title: "Bad Liar",
+      artist: "Imagine Dragons",
       artwork: require("../images/pic6.jpg"),
-      url: require('../songs/Dynamite.mp3'),
+      url: "https://samplesongs.netlify.app/Bad%20Liar.mp3",
       id: "2"
     },
     {
-      title: "Don't Start Now",
-      artist: "Dua Lipa",
+      title: "Faded",
+      artist: "Alan Walker",
       artwork: require("../images/pic7.jpg"),
-      url: require('../songs/Dont_Start_Now.mp3'),
+      url: "https://samplesongs.netlify.app/Faded.mp3",
       id: "3"
     },
     {

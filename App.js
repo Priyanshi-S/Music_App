@@ -20,12 +20,14 @@ import Karaoke from './src/screens/Karaoke';
 import {Image} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon1 from 'react-native-vector-icons/MaterialIcons';
+import Download2 from './src/screens/Download2';
+import Favourite2 from './src/screens/Favourite2';
 
 const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
     return(
         <Tab.Navigator
-            tabBarOptions={{
+            /*tabBarOptions={{
                 style:{
                     height:65,
                     justifyContent:"center",
@@ -33,6 +35,14 @@ const BottomTabNavigator = () => {
                     backgroundColor:"#eff4f0",
                     elevation:2
                 }
+            }}*/
+            screenOptions={{
+              tabBarStyle: [
+                {
+                  display: 'flex'
+                },
+                null
+              ]
             }}
         >
             <Tab.Screen
@@ -61,7 +71,7 @@ const BottomTabNavigator = () => {
 
             <Tab.Screen
                 name="Favourite"
-                component={Favourite}
+                component={Favourite2}
                 options={{
                     tabBarLabel:"",
                     tabBarIcon:({color, size}) => (
@@ -136,7 +146,7 @@ const App = () => {
         />
         <Stack.Screen
           name = "Download"
-          component = {Download}
+          component = {Download2}
         />
         <Stack.Screen 
           name="Artists" 

@@ -66,13 +66,6 @@ const Profile = ({navigation}) => {
                                 fontWeight:"bold",
                             }}>YOUR DOWNLOADS</Text>
                             
-                            <Text style={{
-                            fontWeight:"bold",
-                            color:"#916BBF",
-                            paddingLeft:40
-                        }}>
-                            5 Songs
-                        </Text>
                         </View>
                         </View>
                         
