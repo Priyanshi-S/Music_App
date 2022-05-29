@@ -22,6 +22,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Download2 from './src/screens/Download2';
 import Favourite2 from './src/screens/Favourite2';
+import Home2 from './src/screens/Home2';
+import Profile2 from './src/screens/Profile2';
+import Users from './src/screens/users';
+
+const tabBarListeners = ({ navigation, route }) => ({
+  tabPress: () => navigation.navigate('Favourite'),
+});
 
 const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
@@ -47,7 +54,7 @@ const BottomTabNavigator = () => {
         >
             <Tab.Screen
                 name="Home"
-                component={Home}
+                component={Home2}
                 options={{
                     tabBarLabel:"",
                     tabBarIcon:({color, size}) => (
@@ -77,8 +84,11 @@ const BottomTabNavigator = () => {
                     tabBarIcon:({color, size}) => (
                       <Icon name="heart" type="AntDesign" color="red"  size={17}
                       style={{ paddingTop:15 }}/>
-                    )
-                }}
+                    ),
+                    unmountOnBlur: true
+                }
+            }
+                listeners={tabBarListeners}
             />
 
             <Tab.Screen
@@ -96,7 +106,7 @@ const BottomTabNavigator = () => {
 
             <Tab.Screen
                 name="Profile"
-                component={Profile}
+                component={Profile2}
                 options={{
                     tabBarLabel:"",
                     tabBarIcon:({color, size}) => (
@@ -168,11 +178,18 @@ const App = () => {
           component = {BottomTabNavigator}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name = "Favourite"
+          component = {Favourite2}
+          options={{title: 'Favourite'}}
+        />
+        <Stack.Screen
+          name = "Users"
+          component = {Users}
+          options={{title: 'Users'}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
-    
-
-    
   )
 }
 export default App;

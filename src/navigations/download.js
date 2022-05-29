@@ -100,3 +100,27 @@ export const like = async (currentTrackIndex) => {
       console.log(err);
     })
 };
+
+export const history = async (currentTrackIndex) => {
+  let name = songs[currentTrackIndex].title;
+  try {
+    const value = await AsyncStorage.getItem('email')
+    data = {
+      email: value,
+      song_id: songs[currentTrackIndex].id,
+      title: name
+    }
+    console.log(data);
+  }
+  catch(err) {
+    console.log(err);
+  }
+    axios
+    .post(apiConfig.baseUrl+'/history', data)
+    .then(res => {
+      res.data ? null : alert("Try Again");
+    })
+    .catch(err => {
+      console.log(err);
+    })
+};

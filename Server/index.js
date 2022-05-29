@@ -6,8 +6,9 @@ var cors = require('cors');
 var path=require('path');
 const { title } = require('process');
 var MongoClient = require('mongodb').MongoClient;
+const { spawn } = require('child_process');
+const { json } = require('express');
 var url = "mongodb://localhost:27017/project";
-
 var app=express();
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb',
@@ -22,14 +23,43 @@ var server = app.listen(5000,function () {
 });
 
 app.get('/get-details',(req,res)=> {
-  res.send({value: 'done'});
+  var success = false;
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("project");
+    dbo.collection("songs").find({_id: {$in: ["1","3","5"]}}).toArray(function(err, result) {
+      if (err) throw err;
+      success = true;
+      console.log(result);
+      db.close();
+      res.send(result);
+    });
+  });
+  // var success = false;
+  // MongoClient.connect(url, function(err, db) {
+  //   if (err) throw err;
+  //   var dbo = db.db("project");
+  //   var myobj = 
+  //     {
+  //       title: "Without Me",
+  //     artist: "Halsey",
+  //     artwork: "../images/pic5.jpg",
+  //     url: "https://samplesongs.netlify.app/Without%20Me.mp3",
+  //     _id: "6"
+  //     };
+  //   dbo.collection("songs").insertOne(myobj, function(err, result) {
+  //     if (err) throw err;
+  //     success = true;
+  //     db.close();
+  //     res.send(success);
+  //   });
+  // });
 })
 
 app.post('/register',(req,res) => {
   var success = false;
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
-    console.log("abcd")
     var dbo = db.db("project");
     var myobj = {
       name: req.body.name,
@@ -77,7 +107,7 @@ app.post('/downloaded',(req,res) => {
       song_id: req.body.song_id,
       title: req.body.title
     };
-    dbo.collection("downloads").insertOne(myobj, function(err, result) {
+    dbo.collection("downloads").updateOne(myobj, {$set: myobj}, {upsert: true}, function(err, result) {
       if (err) throw err;
       success = true;
       db.close();
@@ -97,7 +127,6 @@ app.post('/songs',(req,res) => {
     dbo.collection("downloads").find(myobj).toArray(function(err, result) {
       if (err) throw err;
       success = true;
-      console.log(result);
       db.close();
       res.send(result);
     });
@@ -114,7 +143,7 @@ app.post('/likes',(req,res) => {
       song_id: req.body.song_id,
       title: req.body.title
     };
-    dbo.collection("likes").insertOne(myobj, function(err, result) {
+    dbo.collection("likes").updateOne(myobj, {$set: myobj}, {upsert: true}, function(err, result) {
       if (err) throw err;
       success = true;
       db.close();
@@ -134,7 +163,72 @@ app.post('/likedsongs',(req,res) => {
     dbo.collection("likes").find(myobj).toArray(function(err, result) {
       if (err) throw err;
       success = true;
-      console.log(result);
+      db.close();
+      res.send(result);
+    });
+  });
+});
+
+app.post('/details',(req,res) => {
+  var success = false;
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("project");
+    var myobj = {
+      email: req.body.email,
+    };
+    dbo.collection("customers").find(myobj).toArray(function(err, result) {
+      if (err) throw err;
+      success = true;
+      db.close();
+      res.send(result);
+    });
+  });
+});
+
+app.post('/history',(req,res) => {
+  var success = false;
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("project");
+    var myobj = {
+      email: req.body.email,
+      song_id: req.body.song_id,
+      title: req.body.title
+    };
+    dbo.collection("history").updateOne(myobj, {$inc: {"listen_count": 1}}, {upsert: true}, function(err, result) {
+      if (err) throw err;
+      success = true;
+      db.close();
+      res.send(success);
+    });
+  });
+});
+
+app.post('/playlist',(req,res)=> {
+  const pyProg = spawn('python', ['./Playlist.py',req.body.type]);
+  pyProg.stdout.on('data', (data) => {
+    // Do something with the data returned from python script
+    data = data.toString();
+    JSON.parse(data);
+    res.send(data);
+  });
+  pyProg.stderr.on('data', (data) => {
+    console.log("error");
+  });
+})
+
+app.post('/users',(req,res) => {
+  var success;
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("project");
+    var myobj = {
+      email: req.body.email,
+    };
+    dbo.collection("customers").find({email: {$nin: [req.body.email]}}).toArray(function(err, result) {
+      if (err) throw err;
+      success = (result.length>0) ? true : false;
       db.close();
       res.send(result);
     });
