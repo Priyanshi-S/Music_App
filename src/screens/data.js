@@ -41,9 +41,23 @@ const songs = [
     {
       title: "Without Me",
       artist: "Halsey",
-      artwork: require("../images/pic5.jpg"),
+      artwork: require("../images/pic15.jpg"),
       url: "https://samplesongs.netlify.app/Without%20Me.mp3",
       id: "6"
+    },
+    {
+      title: "Closer",
+      artist: "The Chainsmokers",
+      artwork: require("../images/pic7.jpg"),
+      url: "https://github.com/Priyanshi-S/Music_App/blob/main/src/songs/Closer.mp3?raw=true",
+      id: "7"
+    },
+    {
+      title: "Don't Start Now",
+      artist: "Dua Lipa",
+      artwork: require("../images/pic10.jpg"),
+      url: "https://github.com/Priyanshi-S/Music_App/blob/main/src/songs/Dont_Start_Now.mp3?raw=true",
+      id: "8"
     }
   ]
   export default songs;

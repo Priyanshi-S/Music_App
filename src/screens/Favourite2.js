@@ -4,6 +4,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { apiConfig } from '../components/info'
 import songs from './data';
+import styles1 from './styles1';
 
 class Favourite2 extends React.Component {
   constructor(props){
@@ -17,16 +18,7 @@ class Favourite2 extends React.Component {
       <SafeAreaView key={idx}>
       <TouchableOpacity
                        // onPress={()=>navigation.navigate("Detail")}
-                        style={{
-                            height:100,
-                            elevation:2,
-                            backgroundColor:"#FFF",
-                            marginLeft:20,
-                            marginTop:20,
-                            borderRadius:15,
-                            marginBottom:10,
-                            width:370
-                        }}>
+                        style={styles1.listView}>
                         <View style={{flexDirection:"row"}}>
                         <Image
                             source={songs[index-1].artwork}
@@ -91,6 +83,6 @@ class Favourite2 extends React.Component {
           }
         </ScrollView>
     )
-                      }
-                      }
+  }
+}
 export default Favourite2;

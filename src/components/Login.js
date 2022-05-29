@@ -19,7 +19,7 @@ class Inputs extends Component {
    }
    login = (email, pass) => {
      if(email == '' || pass == ''){
-        alert("Email and Password are requireed");
+        alert("Email and Password are required");
         return
      }
      const data = {
