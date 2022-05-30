@@ -22,12 +22,19 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Download2 from './src/screens/Download2';
 import Favourite2 from './src/screens/Favourite2';
+import Playlist2 from './src/screens/Playlist2';
 import Home2 from './src/screens/Home2';
 import Profile2 from './src/screens/Profile2';
 import Users from './src/screens/users';
+import PlayListInputModal from './src/screens/PlayListInputModal';
+import Playlist3 from './src/screens/Playlist3';
 
 const tabBarListeners = ({ navigation, route }) => ({
   tabPress: () => navigation.navigate('Favourite'),
+});
+
+const tabBarListenersPlaylist=({ navigation, route }) => ({
+  tabPress: () => navigation.navigate('Playlist'),
 });
 
 const Tab = createBottomTabNavigator();
@@ -66,14 +73,16 @@ const BottomTabNavigator = () => {
 
             <Tab.Screen
                 name="Playlist"
-                component={Playlist}
+                component={Playlist2}
                 options={{
                     tabBarLabel:"",
                     tabBarIcon:({color, size}) => (
                       <Icon1 name="playlist-add" type="MaterialIcons" color="black"  size={24}
                       style={{ paddingTop:15 }}/>
-                    )
+                    ),
+                    unmountOnBlur: true
                 }}
+                listeners={tabBarListenersPlaylist}
             />
 
             <Tab.Screen
@@ -184,9 +193,24 @@ const App = () => {
           options={{title: 'Favourite'}}
         />
         <Stack.Screen
+          name = "Playlist"
+          component = {Playlist2}
+          options={{title: 'Playlist'}}
+        />
+        <Stack.Screen
           name = "Users"
           component = {Users}
           options={{title: 'Users'}}
+        />
+         <Stack.Screen
+          name = "PlayListInputModal"
+          component = {PlayListInputModal}
+          options={{title: 'PlayListInputModal'}}
+        />
+          <Stack.Screen
+          name = "Playlist3"
+          component = {Playlist3}
+          options={{title: 'Playlist3'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

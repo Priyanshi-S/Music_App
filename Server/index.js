@@ -169,6 +169,43 @@ app.post('/likedsongs',(req,res) => {
   });
 });
 
+app.post('/playlist',(req,res) => {
+  var success = false;
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("project");
+    var myobj = {
+      email: req.body.email,
+      song_id: req.body.song_id,
+      title: req.body.title
+    };
+    dbo.collection("playlists").updateOne(myobj, {$set: myobj}, {upsert: true}, function(err, result) {
+      if (err) throw err;
+      success = true;
+      db.close();
+      res.send(success);
+    });
+  });
+});
+
+app.post('/playlistSongs',(req,res) => {
+  var success = false;
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("project");
+    var myobj = {
+      email: req.body.email,
+    };
+    console.log('hello')
+    dbo.collection("playlists").find(myobj).toArray(function(err, result) {
+      if (err) throw err;
+      success = true;
+      db.close();
+      res.send(result);
+    });
+  });
+});
+
 app.post('/details',(req,res) => {
   var success = false;
   MongoClient.connect(url, function(err, db) {
@@ -205,18 +242,18 @@ app.post('/history',(req,res) => {
   });
 });
 
-app.post('/playlist',(req,res)=> {
-  const pyProg = spawn('python', ['./Playlist.py',req.body.type]);
-  pyProg.stdout.on('data', (data) => {
-    // Do something with the data returned from python script
-    data = data.toString();
-    JSON.parse(data);
-    res.send(data);
-  });
-  pyProg.stderr.on('data', (data) => {
-    console.log("error");
-  });
-})
+// app.post('/playlist',(req,res)=> {
+//   const pyProg = spawn('python', ['./Playlist.py',req.body.type]);
+//   pyProg.stdout.on('data', (data) => {
+//     // Do something with the data returned from python script
+//     data = data.toString();
+//     JSON.parse(data);
+//     res.send(data);
+//   });
+//   pyProg.stderr.on('data', (data) => {
+//     console.log("error");
+//   });
+// })
 
 app.post('/users',(req,res) => {
   var success;

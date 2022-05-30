@@ -1,11 +1,44 @@
+import React, { Component, createContext } from 'react';
 import songs from "../screens/data";
 import { PermissionsAndroid } from 'react-native';
-import RNFetchBlob from 'rn-fetch-blob'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import axios from 'axios'
-import { apiConfig } from '../components/info'
+import RNFetchBlob from 'rn-fetch-blob';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { apiConfig } from '../components/info';
 
+
+// export const AudioContext = createContext();
 var RNFS = require('react-native-fs');
+
+// export class download extends Component {
+// constructor(props) {
+//   super(props);
+//   this.state = {
+//     playList: [],
+//     addToPlayList: null,
+//   };
+// }
+// render() {
+//   const {
+//     playList,
+//     addToPlayList,
+    
+//   } = this.state;  
+ 
+//   return (
+//     <AudioContext.Provider
+//       value={{
+//         playList,
+//         addToPlayList,
+//       }}
+//     >
+//       {this.props.children}
+//     </AudioContext.Provider>
+//   );
+// }
+// }
+
+// export default download;
 
 export const requestToPermissions = async (songIndex) => {
     try {
@@ -93,6 +126,31 @@ export const like = async (currentTrackIndex) => {
   }
     axios
     .post(apiConfig.baseUrl+'/likes', data)
+    .then(res => {
+      res.data ? null : alert("Try Again");
+    })
+    .catch(err => {
+      console.log(err);
+    })
+};
+
+export const addToPlaylist = async (currentTrackIndex) => {
+
+  let name = songs[currentTrackIndex].title;
+  try {
+    const value = await AsyncStorage.getItem('email')
+    data = {
+      email: value,
+      song_id: songs[currentTrackIndex].id,
+      title: name
+    }
+    console.log(data);
+  }
+  catch(err) {
+    console.log(err);
+  }
+    axios
+    .post(apiConfig.baseUrl+'/playlist', data)
     .then(res => {
       res.data ? null : alert("Try Again");
     })

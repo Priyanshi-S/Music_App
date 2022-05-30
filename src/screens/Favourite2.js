@@ -69,7 +69,10 @@ class Favourite2 extends React.Component {
      .catch(err => {
        console.log(err);
      })
+
   }
+
+
   render() {
     return(
         <ScrollView style={{
