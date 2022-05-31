@@ -89,7 +89,7 @@ class Genre extends Component {
        .post(apiConfig.baseUrl+'/register', data)
        .then(res => {
          console.log(res);
-         res.data ? this.props.navigation.navigate('Main') : alert("Error!!! Please try again");
+         res.data ? this.props.navigation.navigate('Login') : alert("Error!!! Please try again");
        })
        .catch(err => {
          console.log(err);

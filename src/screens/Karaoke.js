@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, Text, Image, ImageBackground} from 'react-native'
-import {TextInput,ScrollView,TouchableOpacity} from 'react-native-gesture-handler'
+import {TextInput,ScrollView,TouchableOpacity} from 'react-native'
 
 const Karaoke = () => {
     return(

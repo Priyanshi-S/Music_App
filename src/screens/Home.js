@@ -1,11 +1,53 @@
 import React from 'react'
-import {View, Text, Image, ImageBackground} from 'react-native'
+import {View, Text, Image} from 'react-native'
 import {TextInput,ScrollView,TouchableOpacity} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { apiConfig } from '../components/info'
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Home = ({navigation}) => {
-    return(
+class Home2 extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      name: "",
+      new_user: false,
+      languages:[]
+    }
+  }
+
+    async componentDidMount() {
+      const value = await AsyncStorage.getItem('email')
+      let data = {
+        email: value
+      }
+      axios
+       .post(apiConfig.baseUrl+'/details', data)
+       .then(res => {
+         this.setState({
+           name: res.data[0].name,
+           languages: res.data[0].languages
+         });
+       })
+       .catch(err => {
+         console.log(err);
+       })
+       axios
+       .post(apiConfig.baseUrl+'/check', data)
+       .then(res => {
+         if(res.data == false){
+           this.setState({
+             new_user: true
+           });
+         }
+       })
+       .catch(err => {
+         console.log(err);
+       })
+    }
+    render() {
+      return(
         <ScrollView style={{
             backgroundColor:"#FFF",
             flex:1
@@ -31,7 +73,7 @@ const Home = ({navigation}) => {
                             fontSize:28,
                             color:"#FFF",
                             fontWeight:"bold"
-                        }}>Hi Riya</Text>
+                        }}>Hi {this.state.name}</Text>
                    </View>
                    <View style={{width:"50%",alignItems:"flex-end"}}>
                         <Image
@@ -132,7 +174,7 @@ const Home = ({navigation}) => {
                         }}
                     />
                     <TouchableOpacity 
-                        onPress={()=>navigation.navigate("Detail2")}
+                        onPress={()=>this.props.navigation.navigate("Detail2")}
                         style={{
                             height:250,
                             elevation:2,
@@ -176,7 +218,7 @@ const Home = ({navigation}) => {
                     </TouchableOpacity>
 
                     <TouchableOpacity 
-                        onPress={()=>navigation.navigate("Detail2")}
+                        onPress={()=>this.props.navigation.navigate("Detail2")}
                         style={{
                             height:250,
                             elevation:2,
@@ -220,7 +262,7 @@ const Home = ({navigation}) => {
                     </TouchableOpacity>
 
                     <TouchableOpacity 
-                        onPress={()=>navigation.navigate("Detail2")}
+                        onPress={()=>this.props.navigation.navigate("Detail2")}
                         style={{
                             height:250,
                             elevation:2,
@@ -324,7 +366,7 @@ const Home = ({navigation}) => {
                         }}
                     />
                     <TouchableOpacity 
-                        onPress={()=>navigation.navigate("Detail")}
+                        onPress={()=>this.props.navigation.navigate("Detail2")}
                         style={{
                             height:250,
                             elevation:2,
@@ -368,7 +410,7 @@ const Home = ({navigation}) => {
                     </TouchableOpacity>
 
                     <View 
-                        // onPress={()=>navigation.navigate("Detail")}
+                         onPress={()=>this.props.navigation.navigate("Detail2")}
                         style={{
                             height:250,
                             elevation:2,
@@ -412,7 +454,7 @@ const Home = ({navigation}) => {
                     </View>
 
                     <View 
-                        // onPress={()=>navigation.navigate("Detail")}
+                        // onPress={()=>this.props.navigation.navigate("Detail")}
                         style={{
                             height:250,
                             elevation:2,
@@ -519,7 +561,7 @@ const Home = ({navigation}) => {
                         }}
                     />
                     <TouchableOpacity 
-                        onPress={()=>navigation.navigate("Detail")}
+                        onPress={()=>this.props.navigation.navigate("Detail")}
                         style={{
                             height:250,
                             elevation:2,
@@ -563,7 +605,7 @@ const Home = ({navigation}) => {
                     </TouchableOpacity>
 
                     <View 
-                        // onPress={()=>navigation.navigate("Detail")}
+                        // onPress={()=>this.props.navigation.navigate("Detail")}
                         style={{
                             height:250,
                             elevation:2,
@@ -607,7 +649,7 @@ const Home = ({navigation}) => {
                     </View>
 
                     <View 
-                        // onPress={()=>navigation.navigate("Detail")}
+                        // onPress={()=>this.props.navigation.navigate("Detail")}
                         style={{
                             height:250,
                             elevation:2,
@@ -710,5 +752,7 @@ const Home = ({navigation}) => {
                 </ScrollView>
         </ScrollView>
     )
-}
-export default Home;
+    }
+  }
+
+export default Home2;

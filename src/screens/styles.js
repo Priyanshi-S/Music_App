@@ -46,6 +46,7 @@ export default StyleSheet.create ({
    marginHorizontal: "1%",
    marginBottom: 6,
    minWidth: "48%",
+   maxWidth: "48%",
    textAlign: "center",
  },
  stateStyle: {
